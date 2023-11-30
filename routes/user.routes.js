@@ -8,6 +8,7 @@ import {
   AddFriends,
   Friend_Request_Confirm,
   fetchFriends,
+  fetchLoginData,
 } from "../controller/users.controller.js";
 
 let users = express.Router();
@@ -37,5 +38,11 @@ users.get(
   "/friends",
   passport.authenticate("jwt", { session: false }),
   fetchFriends
+);
+
+users.get(
+  "/loginData",
+  passport.authenticate("jwt", { session: false }),
+  fetchLoginData
 );
 export { users };

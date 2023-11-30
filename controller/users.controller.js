@@ -66,7 +66,9 @@ async function Strangers(req, res) {
     let requestSentTo = [];
     // console.log(strangers, filterUser);
 
-    strangers = strangers.filter((item) => !user.friends.includes(item._id.toString()));
+    strangers = strangers.filter(
+      (item) => !user.friends.includes(item._id.toString())
+    );
 
     for (let i = 0; i < user.friendRequestSentBy.length; i++) {
       let u = await User.findById(user.friendRequestSentBy[i]);
@@ -123,19 +125,41 @@ async function Friend_Request_Confirm(req, res) {
   }
 }
 
-async function fetchFriends(req,res) {
-    try{
-      let result = [];
-      let user = await User.findById(req.user._id);
-      for (let i = 0; i < user.friends.length; i++){
-        let friend = await User.findById(user.friends[i]);
-        result.push({name : friend.name});
-      }
-
-      return res.status(200).send(result);
-    }catch(err){
-      return res.status(500).send("Internal server Error");
+async function fetchFriends(req, res) {
+  try {
+    let result = [];
+    let user = await User.findById(req.user._id);
+    for (let i = 0; i < user.friends.length; i++) {
+      let friend = await User.findById(user.friends[i]);
+      result.push({ name: friend.name });
     }
+
+    return res.status(200).send(result);
+  } catch (err) {
+    return res.status(500).send("Internal server Error");
+  }
 }
 
-export { create, Login, Auth, Strangers, AddFriends, Friend_Request_Confirm, fetchFriends};
+async function fetchLoginData(req, res) {
+  try {
+    let user = await User.findById(req.user._id);
+    let result = {};
+    result.name = user.name;
+    result.friends = user.friends.length;
+    result.post = user.posts.length;
+    return res.status(200).send(result);
+  } catch (err) {
+    return res.status(500).send("Internal server Error");
+  }
+}
+
+export {
+  create,
+  Login,
+  Auth,
+  Strangers,
+  AddFriends,
+  Friend_Request_Confirm,
+  fetchFriends,
+  fetchLoginData,
+};
