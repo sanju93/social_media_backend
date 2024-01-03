@@ -34,7 +34,19 @@ let userSchema = new mongoose.Schema({
     friendRequestSentTo : [{
         type : mongoose.Schema.Types.String,
         ref : 'User'
-    }]
+    }],
+    chats : [
+        {
+           chat_id : {
+            type : String,
+            ref : 'Chats'
+           },
+           sent_to : {
+            type : String,
+            ref : 'User'
+           }
+        }
+    ]
 
 
 },{

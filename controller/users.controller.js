@@ -131,7 +131,7 @@ async function fetchFriends(req, res) {
     let user = await User.findById(req.user._id);
     for (let i = 0; i < user.friends.length; i++) {
       let friend = await User.findById(user.friends[i]);
-      result.push({ name: friend.name });
+      result.push({ name: friend.name ,id : friend.id});
     }
 
     return res.status(200).send(result);
@@ -152,6 +152,8 @@ async function fetchLoginData(req, res) {
     return res.status(500).send("Internal server Error");
   }
 }
+
+
 
 export {
   create,
